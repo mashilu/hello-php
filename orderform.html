@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bob's Auto Parts</title>
+</head>
+<body>
+<h1>Bob's Auto Parts</h1>
+<form action="processorder.php" method="post">
+    <table border="0">
+        <tr bgcolor="#cccccc">
+            <td width="150">Item</td>
+            <td width="15">Quantity</td>
+        </tr>
+        <tr>
+            <td width="150">Tires</td>
+            <td width="15">
+                <input type="text" name="tireqty"  size="3" />
+            </td>
+        </tr>
+        <tr>
+            <td width="150">Oil</td>
+            <td width="15">
+                <input type="text" name="oilqty"  size="3" maxlength="3" />
+            </td>
+        </tr>
+        <tr>
+            <td width="150">Spark Plugs</td>
+            <td width="15">
+                <input type="text" name="sparkqty"  size="3" maxlength="3" />
+            </td>
+        </tr>
+        <tr>
+            <td width="150">Address</td>
+            <td width="15">
+                <input type="text" name="address"  size="30" maxlength="3" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" value="Submit" />
+            </td>
+        </tr>
+    </table>
+</form>
+<form action="vieworder.php" method="post">
+    <table>
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" value="View" />
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
