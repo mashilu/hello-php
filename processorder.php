@@ -60,7 +60,7 @@
                         $sparkqty. " spark plugs\t$".$totalmount."\t".$address."\n";
 
         //open file for appending
-        @ $fp = fopen("$DOCUMENT_ROOT/../orders/orders.txt", 'ab');
+        $fp = fopen("$DOCUMENT_ROOT/../orders/orders.txt", 'ab');
 
         if (!$fp) {
             echo "<p><strong>Your order could not be processed at this time.

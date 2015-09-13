@@ -1,7 +1,7 @@
 <?php
-    $pictures = array('tire' => 'tire.jpg', 'oil' => 'oil.jpg',
-                      'door' => 'door.jpg', 'steering_wheel' => 'steering_wheel.jpg',
-                      'thermostat' => 'thermostat.jpg', 'wiper_blade' => 'wiper_blade.jpg');
+    $pictures = array('tire' => 'img/a.png', 'oil' => 'img/b.png',
+                      'door' => 'img/c.png', 'steering_wheel' => 'img/d.png',
+                      'thermostat' => 'img/e.png', 'wiper_blade' => 'img/f.png');
     shuffle($pictures);
 ?>
 
@@ -18,7 +18,7 @@
                     reset($pictures);
                     for ($i = 0; $i < 3; $i++) {
                         list($altname, $imgsrc) = each($pictures);
-                        echo "<td align=\"center\" ><img src=\"".$imgsrc."\""."alt=\"".$altname."\" /></td>";
+                        echo "<td align=\"center\" width=\"30%\"><img src=\"".$imgsrc."\""."alt=\"".$altname."\" width=\"30%\"/></td>";
                     }
                 ?>
             </>
