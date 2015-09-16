@@ -1,0 +1,28 @@
+body {
+    margin: 0;
+    height: 950px;;
+    background-color: black;
+}
+#header {
+    width: 100%;
+    height: 10%;
+    background-color: antiquewhite;
+}
+#content_menu {
+    width: 30%;
+    height: 80%;
+    background-color: aquamarine;
+    float: left;
+}
+#conent_main {
+    width: 70%;
+    height: 80%;
+    background-color: bisque;
+    float: left;
+}
+#bottom {
+    width: 100%;
+    height: 10%;
+    clear: both;
+    background-color: cornsilk;
+}
