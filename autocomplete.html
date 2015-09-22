@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <script>
+        function rangeChg() {
+            var range = document.getElementById("range").value;
+            var output = document.getElementById("output");
+            output.value = range;
+        }
+    </script>
+    <label id="label" for="range">大小</label>
+    <input type="range" id="range" value="50" min="0" max="100" step="5" onmousemove="rangeChg()">
+    <output id="output"></output>
+    <br />
+    <label id="labelClor" for="color">颜色</label>
+    <input type="color" id="color" onchange="document.body.style.backgroundColor = document.getElementById('currentColor').textContent = this.value">
+    <span id="currentColor"></span>
+</body>
+</html>

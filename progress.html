@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <script>
+        function btn() {
+//            for (var i = 0; i <= 100; i++) {
+//                setTimeout(function(){
+//                    updateprogress(i);
+//                }, 2000);
+//            }
+            var i = 0;
+            function thread_one() {
+                if (i <= 100) {
+                    updateprogress(i);
+                    i++;
+                }
+            }
+            setInterval(thread_one, 100);
+        }
+        function updateprogress(newValue) {
+            var progressBar = document.getElementById("p");
+            progressBar.value = newValue;
+            progressBar.getElementsByTagName("span")[0].textContent = newValue;
+        }
+    </script>
+    <section>
+        <h2>progress元素的使用</h2>
+        <p>完成的百分比:
+            <progress id="p" max="100" style="background-color: aqua">
+                <span>0</span>%
+            </progress>
+        </p>
+        <input type="button" onclick="btn()" value="点击">
+    </section>
+</body>
+</html>
