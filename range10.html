@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <script>
+        var rangeObj = document.createRange();
+        function selectRangeContent() {
+            var div = document.getElementById("div");
+            rangeObj.selectNode(div);
+            alert(rangeObj.toString());
+        }
+        function cancelRangeContent() {
+            rangeObj.collapse(false);
+            alert(rangeObj.toString());
+        }
+    </script>
+    <div id="div" style="background-color: aqua; width: 50px; height: 30px; float: left;">这是用来测试的内容</div>
+    <div style="float: left;">
+        <button onclick="selectRangeContent()">选取内容</button>
+        <button onclick="cancelRangeContent()">取消选取内容</button>
+    </div>
+</body>
+</html>
