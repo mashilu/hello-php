@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+//        window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
+//        window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+//        window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+//        window.IDBKeyCursor = window.IDBKeyCursor || window.webkitIDBCursor || window.msIDBCursor;
+
+// cursor test
+        var myDB = {
+            name: "helloindexDB",
+            version: 1,
+            db: null
+        }
+        function openDB(name, version) {
+            var version = version || 1;
+            var request = window.indexedDB.open(name, version);
+            request.onerror = function (e) {
+
+            }
+            request.onsuccess = function (e) {
+                myDB.db = e.target.result;
+            }
+            request.onupgradeneeded = function (e) {
+                var db = e.target.result;
+                if (!db.objectStoreNames.contains("student")) {
+                    var store = db.createObjectStore("students", {keyPath:"id"});
+                    store.createIndex("nameIndex", "name", {unique:true});
+                    store.createIndex("ageIndex", "age", {unique:false});
+                }
+            }
+        }
+
+        var students = [
+            { id:101, name:"aa", age:11 },
+            { id:102, name:"vv", age:12 },
+            { id:103, name:"cc", age:11 },
+            { id:104, name:"dd", age:15 },
+            { id:105, name:"gg", age:18 }
+        ]
+
+        function addData(db, storeName) {
+            var tx = db.transaction(storeName);
+            var store = tx.objectStore(storeName);
+            for (var i = 0; i < students.length; i++) {
+                store.add(students[i]);
+            }
+        }
+
+        function fetchStoreByCursor(db, storeName) {
+            var transaction = db.transaction(storeName);
+            var store = transaction.objectStore(storeName);
+            var request = store.openCursor();
+            request.onsuccess = function (e) {
+                var cursor = e.target.result;
+                if (cursor) {
+                    console.log(cursor.key);
+                    var currentStudent = cursor.value;
+                    console.log(currentStudent.id + "--" + currentStudent.name + "--" + currentStudent.age);
+                    cursor.continue();
+                }
+            }
+        }
+
+        openDB(myDB.name, myDB.version);
+
+        setTimeout(function () {
+            fetchStoreByCursor(myDB.db, "students");
+        }, 1000);
+    </script>
+
+</head>
+<body>
+</body>
+</html>
