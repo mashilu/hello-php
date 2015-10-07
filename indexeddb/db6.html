@@ -4,25 +4,21 @@
     <meta charset="UTF-8">
     <title></title>
     <script>
-//        window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
-//        window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
-//        window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
-//        window.IDBKeyCursor = window.IDBKeyCursor || window.webkitIDBCursor || window.msIDBCursor;
-
-// cursor test
         var myDB = {
-            name: "helloindexDB",
+            name: "dbtest1",
             version: 1,
-            db: null
-        }
+            db: "null"
+        };
+
         function openDB(name, version) {
             var version = version || 1;
             var request = window.indexedDB.open(name, version);
             request.onerror = function (e) {
-
+                alert("error");
             }
             request.onsuccess = function (e) {
                 myDB.db = e.target.result;
+                alert("success");
             }
             request.onupgradeneeded = function (e) {
                 var db = e.target.result;
@@ -40,7 +36,7 @@
             { id:103, name:"cc", age:11 },
             { id:104, name:"dd", age:15 },
             { id:105, name:"gg", age:18 }
-        ]
+        ];
 
         function addData(db, storeName) {
             var tx = db.transaction(storeName, "readwrite");
@@ -50,33 +46,34 @@
             }
         }
 
-        function fetchStoreByCursor(db, storeName) {
+        function getData(db, storeName) {
             var transaction = db.transaction(storeName);
             var store = transaction.objectStore(storeName);
-            var request = store.openCursor();
+            var index = store.index("ageIndex");
+            var request = index.openCursor(IDBKeyRange.only(11));
             request.onsuccess = function (e) {
                 var cursor = e.target.result;
                 if (cursor) {
-                    console.log(cursor.key);
-                    var currentStudent = cursor.value;
-                    console.log(currentStudent.id + "--" + currentStudent.name + "--" + currentStudent.age);
+                    var student = cursor.value;
+                    console.log(student.id + "--" +
+                        student.name + "--" +
+                        student.age + "--");
                     cursor.continue();
                 }
             }
         }
 
         openDB(myDB.name, myDB.version);
-
         setTimeout(function () {
             addData(myDB.db, "students");
         }, 1000);
-
         setTimeout(function () {
-            fetchStoreByCursor(myDB.db, "students");
+            getData(myDB.db, "students");
         }, 1000);
-    </script>
 
+    </script>
 </head>
 <body>
+<!-- use of index and cursor-->
 </body>
 </html>

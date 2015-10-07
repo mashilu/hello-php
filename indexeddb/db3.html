@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        function CreateObjectStore() {
+            var name = "indexedDBtest";
+            var dbVersion = 4;
+            var idb;
+            var dbConnect = indexedDB.open(name, dbVersion);
+            dbConnect.onsuccess = function (e) {
+                idb = e.target.result;
+                alert("链接数据库成功");
+            }
+            dbConnect.onerror = function () {
+                alert("链接数据库失败");
+            }
+            dbConnect.onupgradeneeded = function (e) {
+                idb = e.target.result;
+                var name = "user";
+                var optionalParameters = {
+                    keyPath: "userid",
+                    autoIncrement: false
+                };
+                var store = idb.createObjectStore(name, optionalParameters);
+                alert("数据仓库创建成功");
+            }
+        }
+    </script>
+</head>
+<body>
+    <input type="button" value="createObjectStore" onclick="CreateObjectStore()" />
+</body>
+</html>

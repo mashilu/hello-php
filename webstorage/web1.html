@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        function saveStroage(id) {
+            var target = document.getElementById(id);
+            var str = target.value;
+            sessionStorage.setItem("message", str);
+        }
+
+        function loadStorage(id) {
+            var target = document.getElementById(id);
+            var str = sessionStorage.getItem("message");
+            target.innerHTML = str;
+        }
+    </script>
+</head>
+<body>
+    <p id="msg"></p>
+    <input type="text" id="input" />
+    <input type="button" value="save" onclick="saveStroage('input')" />
+    <input type="button" value="load" onclick="loadStorage('msg')" />
+</body>
+</html>

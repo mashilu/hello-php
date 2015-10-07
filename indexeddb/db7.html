@@ -4,21 +4,16 @@
     <meta charset="UTF-8">
     <title></title>
     <script>
-//        window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
-//        window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
-//        window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
-//        window.IDBKeyCursor = window.IDBKeyCursor || window.webkitIDBCursor || window.msIDBCursor;
-
-// cursor test
-        var myDB = {
-            name: "helloindexDB",
+        myDB = {
+            name: "dbtest2",
             version: 1,
             db: null
-        }
+        };
+
         function openDB(name, version) {
             var version = version || 1;
             var request = window.indexedDB.open(name, version);
-            request.onerror = function (e) {
+            request.onerror = function () {
 
             }
             request.onsuccess = function (e) {
@@ -27,39 +22,46 @@
             request.onupgradeneeded = function (e) {
                 var db = e.target.result;
                 if (!db.objectStoreNames.contains("student")) {
-                    var store = db.createObjectStore("students", {keyPath:"id"});
+                    var store = db.createObjectStore("student", {keyPath:"id"});
                     store.createIndex("nameIndex", "name", {unique:true});
                     store.createIndex("ageIndex", "age", {unique:false});
                 }
             }
         }
 
-        var students = [
-            { id:101, name:"aa", age:11 },
-            { id:102, name:"vv", age:12 },
-            { id:103, name:"cc", age:11 },
-            { id:104, name:"dd", age:15 },
-            { id:105, name:"gg", age:18 }
-        ]
+        var student = [
+            {id:101, name:"aaa", age:20},
+            {id:102, name:"baa", age:20},
+            {id:103, name:"caa", age:21},
+            {id:104, name:"daa", age:20},
+            {id:105, name:"eaa", age:22},
+            {id:106, name:"zaa", age:23}
+        ];
 
         function addData(db, storeName) {
             var tx = db.transaction(storeName, "readwrite");
             var store = tx.objectStore(storeName);
-            for (var i = 0; i < students.length; i++) {
-                store.add(students[i]);
+            for (var i = 0; i < student.length; i++) {
+                store.add(student[i]);
             }
         }
 
-        function fetchStoreByCursor(db, storeName) {
+//        IDBKeyRange.only(value):
+//        IDBKeyRange.lowerbound(value, isOpen): 获取最小值是value， isOpen判断是否包含value
+//        IDBKeyRange.upperbound(value, isOpen): 获取最大值是value， isOpen判断是否包含value
+//        IDBKeyRange.bound(value1, value2, isOpen1, isOpen2)
+        function getDataRange(db, storeName) {
             var transaction = db.transaction(storeName);
             var store = transaction.objectStore(storeName);
-            var request = store.openCursor();
+            var index = store.index("nameIndex");
+            var request = index.openCursor(IDBKeyRange.bound("b", "z", true, false));
             request.onsuccess = function (e) {
                 var cursor = e.target.result;
                 if (cursor) {
-                    console.log(cursor.key);
-                    var currentStudent = cursor.value;
-                    console.log(currentStudent.id + "--" + currentStudent.name + "--" + currentStudent.age);
+                    var student = cursor.value;
+                    console.log(student.id + "--" +
+                            student.name + "--" +
+                            student.age + "--");
                     cursor.continue();
                 }
             }
@@ -68,15 +70,16 @@
         openDB(myDB.name, myDB.version);
 
         setTimeout(function () {
-            addData(myDB.db, "students");
+            addData(myDB.db, "student");
         }, 1000);
 
         setTimeout(function () {
-            fetchStoreByCursor(myDB.db, "students");
+            getDataRange(myDB.db, "student");
         }, 1000);
-    </script>
 
+    </script>
 </head>
 <body>
+<!--open cursor 范围-->
 </body>
 </html>

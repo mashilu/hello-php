@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
+        window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+        window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+        window.IDBKeyCursor = window.IDBKeyCursor || window.webkitIDBCursor || window.msIDBCursor;
+
+        function connectDatabase() {
+            var dbName = "indexedDBtest";
+            var dbVersion = 1
+            var idb;
+            var dbConnect = indexedDB.open(dbName, dbVersion);
+            dbConnect.onsuccess = function (e) {
+                idb = e.target.result;
+                alert("链接数据库成功");
+            }
+            dbConnect.onerror = function () {
+                alert("链接数据库失败");
+            }
+        }
+    </script>
+
+</head>
+<body>
+    <input type="button" value="connectDB" onclick="connectDatabase()" />
+</body>
+</html>

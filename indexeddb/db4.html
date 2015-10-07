@@ -4,12 +4,6 @@
     <meta charset="UTF-8">
     <title></title>
     <script>
-//        window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
-//        window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
-//        window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
-//        window.IDBKeyCursor = window.IDBKeyCursor || window.webkitIDBCursor || window.msIDBCursor;
-
-// cursor test
         var myDB = {
             name: "helloindexDB",
             version: 1,
@@ -50,33 +44,42 @@
             }
         }
 
-        function fetchStoreByCursor(db, storeName) {
-            var transaction = db.transaction(storeName);
-            var store = transaction.objectStore(storeName);
-            var request = store.openCursor();
-            request.onsuccess = function (e) {
-                var cursor = e.target.result;
-                if (cursor) {
-                    console.log(cursor.key);
-                    var currentStudent = cursor.value;
-                    console.log(currentStudent.id + "--" + currentStudent.name + "--" + currentStudent.age);
-                    cursor.continue();
-                }
-            }
-        }
-
         openDB(myDB.name, myDB.version);
 
         setTimeout(function () {
             addData(myDB.db, "students");
         }, 1000);
 
+        function getDataByIndexName(db, storeName) {
+            var transaction = db.transaction(storeName);
+            var store = transaction.objectStore(storeName);
+            var index = store.index("nameIndex");
+            index.get("aa").onsuccess = function (e) {
+                var student = e.target.result;
+                console.log(student.id + "--" + student.name + "--" + student.age);
+            }
+        }
+
         setTimeout(function () {
-            fetchStoreByCursor(myDB.db, "students");
+            getDataByIndexName(myDB.db, "students");
+        }, 1000);
+
+        function getDataByIndexAge(db, storeName) {
+            var tx = db.transaction(storeName);
+            var store = tx.objectStore(storeName);
+            var index = store.index("ageIndex");
+            index.get(11).onsuccess = function (e) {
+                var student = e.target.result;
+                alert("id:" + student.id + " name:" + student.name + " age" + student.age);
+            }
+        }
+
+        setTimeout(function () {
+            getDataByIndexAge(myDB.db, "students");
         }, 1000);
     </script>
-
 </head>
 <body>
+
 </body>
 </html>
